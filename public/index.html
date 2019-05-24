@@ -4,21 +4,39 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
     <title>DEBUG PAGE</title>
     <style>
         body{
             display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
+            flex-direction: column;
         }
         .hero{
-            width: 200px;
             height: 300px;
             border: 1px solid black;
         }
     </style>
 </head>
 <body>
-    
+    <script>
+        axios.get("/data")
+        .then(data=>{
+            var heroList = data.data
+            heroList.forEach(x=>{
+                var div = document.createElement("div")
+                div.innerHTML =
+                `<img src="${x.circleIcon}">
+                    <div>
+                    <h1>${x.name}</h1>
+                    <h2>${x.title}</h23>
+                    <h3>${x.role.description}</h3>
+                </div>`
+                div.classList.add("hero")
+                document.body.appendChild(div)
+            })
+        })
+    </script>
 </body>
 </html>
