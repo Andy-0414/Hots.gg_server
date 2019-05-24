@@ -5,7 +5,7 @@ class HosCrawler {
     constructor() {
         this.heroDataList = []
         this.invenDataList = []
-        this.update().then(data => { console.log("CLEAR") })
+        this.update()
     }
     update() {
         return Promise.all([
@@ -16,7 +16,7 @@ class HosCrawler {
                         var str = $("script").get()[9].children[0].data
 
                         this.heroDataList = JSON.parse(str.split(/(window.blizzard.hgs.*) =/g)[2].replace(";", ""))
-                        resolve(this.heroDataList)
+                        resolve(true)
                     })
                     .catch(err => [
                         reject(err)
@@ -36,7 +36,7 @@ class HosCrawler {
                             this.invenDataList.push({
                                 name,
                                 code,
-                                Ability: []
+                                ability: []
                             })
                             promiseList.push(new Promise(resolve => {
                                 axios.get(`http://hos.inven.co.kr/dataninfo/hero/detail.php?code=${code}`)
@@ -51,7 +51,7 @@ class HosCrawler {
                                                 text: current.next().text(),
                                                 tier: e.attribs["data-talent-tier"]
                                             })
-                                            this.invenDataList[this.invenDataList.findIndex(x => x.name == name)].Ability = Ability_TMP
+                                            this.invenDataList[this.invenDataList.findIndex(x => x.name == name)].ability = Ability_TMP
                                         })
                                         resolve(html.data)
                                     })
@@ -60,13 +60,19 @@ class HosCrawler {
                         })
                         Promise.all(promiseList)
                             .then(data => {
-                                resolve(data)
+                                resolve(true)
                             })
                             .catch(err => {
                                 reject(err)
                             })
                     })
             })])
+            .then(()=>{
+                console.log("OK")
+                this.invenDataList.forEach((idx,x)=>{
+                    //this.heroDataList[this.heroDataList.findIndex(y=>{y.name == x.name})].ability = x.ability
+                })
+            })
 
     }
     getHeroData(key) {
