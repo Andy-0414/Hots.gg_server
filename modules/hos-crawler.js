@@ -25,14 +25,40 @@ class HosCrawler {
                     var $ = cheerio.load(html.data)
                     var heroCodeList = $(".hosDbCommonHeroList").children()
                     this.invenDataList = []
+                    var promiseList = []
                     heroCodeList.each((i, e) => {
                         if (i == 0) return
+                        var name = heroCodeList[i].children[1].children[0].data
+                        var code = e.attribs.href.split('=')[1]
                         this.invenDataList.push({
-                            name: heroCodeList[i].children[1].children[0].data,
-                            code: e.attribs.href.split('=')[1],
+                            name,
+                            code,
+                            Ability: []
                         })
+
+                        promiseList.push(new Promise(resolve => {
+                            axios.get(`http://hos.inven.co.kr/dataninfo/hero/detail.php?code=${code}`)
+                                .then(html => {
+                                    var $ = cheerio.load(html.data)
+                                    var Ability = $(".talentLevel0>dd")
+                                    var Ability_TMP = []
+                                    Ability.children().each((i, e) => {
+                                        var current = $(e).find("p.name")
+                                        Ability_TMP.push({
+                                            name : current.text(),
+                                            text : current.next().text(),
+                                            tier : e.attribs["data-talent-tier"]
+                                        })
+                                        this.invenDataList[this.invenDataList.findIndex(x=>x.name == name)].Ability = Ability_TMP
+                                    })
+                                    resolve(html.data)
+                                })
+                        }))
+
                     })
-                    console.log(this.invenDataList)
+                    Promise.all(promiseList).then(data => {
+                        console.log(this.invenDataList)
+                    })
                 })
         })
     }
