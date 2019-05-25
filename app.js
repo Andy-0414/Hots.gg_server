@@ -9,7 +9,6 @@ app.get('/',(req,res)=>{
     res.sendFile('./public/index.html')
 })
 app.get('/data',(req,res)=>{
-    console.log(hosCrawler.getHeroDataList())
     res.send(hosCrawler.getHeroDataList())
 })
 app.listen(3000,()=>{

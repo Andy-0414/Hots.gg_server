@@ -69,8 +69,16 @@ class HosCrawler {
             })])
             .then(()=>{
                 console.log("OK")
-                this.invenDataList.forEach((idx,x)=>{
-                    //this.heroDataList[this.heroDataList.findIndex(y=>{y.name == x.name})].ability = x.ability
+                this.invenDataList.forEach(x=>{
+                    var i = this.heroDataList.findIndex(y =>{
+                        return x.name.replace(/ /gi, "").indexOf(y.name.replace(/ /gi, "")) != -1
+                            || y.name.replace(/ /gi, "").indexOf(x.name.replace(/ /gi, "")) != -1
+                    })
+                    if(i == -1){
+                        console.log("ERR", x.name)
+                    }
+                    else
+                        this.heroDataList[i].characteristic = x.ability
                 })
             })
 
