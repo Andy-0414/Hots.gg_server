@@ -21,7 +21,7 @@
 </head>
 <body>
     <script>
-        axios.get("/data")
+        axios.get("/getHeroData")
         .then(data=>{
             var heroList = data.data
             heroList.forEach(x=>{
