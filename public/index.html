@@ -27,11 +27,11 @@
             heroList.forEach(x=>{
                 var div = document.createElement("div")
                 div.innerHTML =
-                `<img src="${x.circleIcon}">
-                    <div>
+                `<div>
+                    <img src="${x.circleIcon}">
                     <h1>${x.name}</h1>
-                    <h2>${x.title}</h23>
-                    <h3>${x.role.description}</h3>
+                    <h2>${x.title}</h2>
+                    <h4>${x.abilities.map(x=>x.name)}</h4>
                 </div>`
                 div.classList.add("hero")
                 document.body.appendChild(div)
