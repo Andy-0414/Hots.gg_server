@@ -9,7 +9,10 @@ app.get('/', (req, res) => { // DEBUG 페이지
     res.sendFile('./public/index.html')
 })
 app.get('/getHeroData', (req, res) => { // 영웅 정보 불러오기
-    res.send(hosCrawler.getHeroDataList())
+    if(hosCrawler.isHeroDataLoad())
+        res.send(hosCrawler.getHeroDataList())
+    else
+        res.send("NULL DATA")
 })
 app.listen(3000, () => { // 3000포트
     console.log("SERVER OPEN")

@@ -84,7 +84,8 @@ class HosCrawler {
                 console.log(this.heroDataList.length, this.invenDataList.length) // 안두인 없음
             })
             .catch(err => {
-                console.log("FAIL")
+                console.log("FAIL:RESTART")
+                this.update()
             })
 
     }
@@ -95,6 +96,9 @@ class HosCrawler {
     }
     getHeroDataList() {
         return this.heroDataList
+    }
+    isHeroDataLoad(){
+        return !!this.heroDataList
     }
 }
 
