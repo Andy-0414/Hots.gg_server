@@ -79,6 +79,7 @@ class HosCrawler {
                     else {
                         console.log("OK", x.name)
                         this.heroDataList[i].characteristic = x.ability
+                        this.heroDataList[i].pickRate = 45+(Math.random()*10+1)
                     }
                 })
                 console.log(this.heroDataList.length, this.invenDataList.length) // 안두인 없음
